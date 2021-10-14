@@ -1,11 +1,15 @@
 const player1 = "X";
 const player2 = "O";
 var playtime = player1;
-var gameover = false; 
+var gameover = false;
 
-atualizaContagem();
-inicializaEspacos();
-reiniciaJogo();
+main();
+
+function main(){
+    atualizaContagem();
+    inicializaEspacos();
+    resetaPartida();
+}
 
 function atualizaContagem() {
 
@@ -41,7 +45,7 @@ function inicializaEspacos(){
                     playtime = player2;
                 }
 
-                else { 
+                else {
                     this.innerHTML = "<img src='jogodavelha/o.jpeg' border='0' height='50'>";
                     this.setAttribute("ocupado", player2);
                     playtime = player1;
@@ -49,10 +53,10 @@ function inicializaEspacos(){
 
                 atualizaContagem();
                 verificarVencedor();
-            } 
-        }); 
+            }
+        });
     }
-} 
+}
 
 
 
@@ -90,9 +94,7 @@ async function verificarVencedor(){
 
     else if(a1 != "" && a2 != "" && a3 != "" && b1 != "" && b2 != "" && b3 != "" && c1 != "" && c2 != "" && c3 != ""){
         gameover = true;
-        await new Promise(resolve => setTimeout(resolve, 50));
-        alert("deu velha!!!");
-        reiniciaJogo();
+        await new Promise(() => setTimeout( () => { alert("deu velha!!!"); reiniciaJogo(); }, 50));
     }
 }
 
@@ -103,16 +105,19 @@ function sleep (ms) {
 
 function reiniciaJogo(){
 
-    var novo = document.getElementById("reiniciar");
-    novo.addEventListener("click", function(){
-        document.location.reload(true)});
-
-    /*playtime = player1;
+    playtime = player1;
     gameover = false;
     var espacos = document.getElementsByClassName("espaco");
 
     for (var i=0; i<espacos.length; i++){
-         this.innerHTML = "";
-         this.setAttribute("ocupado", "");
-    }*/
+         espacos[i].innerHTML = "";
+         espacos[i].setAttribute("ocupado", "");
+    }
+    main();
+}
+
+function resetaPartida(){
+    var novo = document.getElementById("reiniciar");
+    novo.addEventListener("click", function(){
+        document.location.reload(true)});
 }
